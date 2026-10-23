@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - KNOVA</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
+<script src="auth.js" defer></script>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">KNOVA</a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <!--<div class="auth-buttons">
+      <a href="#" class="btn">Sign In</a>
+    </div>-->
+  </header>
+
+  <section class="page-hero">
+    <h1>About KNOVA</h1>
+    <p>Learn more about our purpose and core objectives.</p>
+  </section>
+
+  <main class="page-container">
+    <div class="about-card">
+      <h2>Project Mission</h2>
+      <p>KNOVA is designed to streamline resource discovery, offering specialized domain categorization and precise filtering tools to help developers, students, and researchers locate relevant information quickly.</p>
+    </div>
+
+    <div class="about-card">
+      <h2>Core Build</h2>
+      <p>Built with lightweight, responsive styling principles, KNOVA aims to make resource discovery simple across desktop and mobile devices.</p>
+    </div>
+     <div class="about-card">
+      <h2>Origin</h2>
+      <p>Created by a college student as a project to improve resource discovery for the academic community.</p>
+    </div>
+    
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 KNOVA. Drushti Ludbe</p>
+  </footer>
+<div class="login-modal" id="loginModal" hidden>
+    <div
+      class="login-modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="loginModalTitle"
+    >
+      <button
+        type="button"
+        class="modal-close"
+        id="closeLoginModal"
+        aria-label="Close"
+      >&times;</button>
+
+      <h2 id="loginModalTitle">Login Required</h2>
+
+      <p>Please log in or create a free KNOVA account before searching.</p>
+
+      <div class="modal-actions">
+        <a href="login.html" class="btn">Log In</a>
+        <a href="signup.html" class="btn">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

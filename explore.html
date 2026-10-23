@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore - KNOVA</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">KNOVA</a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html" class="active">Explore</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <h1>Explore Resources</h1>
+    <p>Discover books, research papers, photographs, and learning resources.</p>
+  </section>
+
+  <main class="page-container">
+
+    <form class="explore-filters" id="explore-form">
+      <h3>Advanced Search</h3>
+
+      <div class="filter-grid">
+
+        <div class="filter-group">
+          <label for="keyword-search">Keyword or Title</label>
+          <input
+            type="search"
+            id="keyword-search"
+            placeholder="e.g. Python, machine learning"
+          >
+        </div>
+
+        <div class="filter-group">
+          <label for="author-search">Author / Creator</label>
+          <input
+            type="search"
+            id="author-search"
+            placeholder="e.g. Guido van Rossum"
+          >
+        </div>
+
+        <div class="filter-group">
+          <label for="domain-select">Domain</label>
+          <select id="domain-select">
+            <option value="">All Domains</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Electrical Engineering">Electrical Engineering</option>
+            <option value="Electronics and Telecommunication">Electronics and Telecommunication</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Astronomy">Astronomy</option>
+            <option value="Environmental Science">Environmental Science</option>
+            <option value="Literature">Literature</option>
+            <option value="History">History</option>
+            <option value="Arts and Photography">Arts and Photography</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="subdomain-select">Sub-Domain</label>
+          <select id="subdomain-select">
+            <option value="">All Sub-Domains</option>
+            <option value="Programming">Programming</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Software Engineering">Software Engineering</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="Machine Learning">Machine Learning</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Computer Networks">Computer Networks</option>
+            <option value="Database Systems">Database Systems</option>
+            <option value="Cloud Computing">Cloud Computing</option>
+            <option value="Digital Electronics">Digital Electronics</option>
+            <option value="Robotics">Robotics</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Optics">Optics</option>
+            <option value="Astronomy">Astronomy</option>
+            <option value="Research">Research</option>
+            <option value="Books">Books</option>
+            <option value="Photography">Photography</option>
+            <option value="History">History</option>
+            <option value="Literature">Literature</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="field-select">Resource Type</label>
+          <select id="field-select">
+            <option value="all">All Resources</option>
+            <option value="books">Books</option>
+            <option value="photos">Photographs / Images</option>
+            <option value="research">Research Papers</option>
+            <option value="documentation">Documentation and Guides</option>
+            <option value="web">Web Resources</option>
+          </select>
+        </div>
+
+      </div>
+
+      <button class="btn-filter" type="submit">Search Resources</button>
+    </form>
+
+    <section class="results-section">
+      <h2>Search Results</h2>
+      <p id="explore-message" class="result-details" aria-live="polite">
+        Search by keyword, author, domain, or resource type.
+      </p>
+
+      <section>
+        <h3>KNOVA Resources</h3>
+        <div class="results-list" id="explore-results"></div>
+      </section>
+
+      <section id="books-section">
+        <h3>Books</h3>
+        <div class="results-list" id="books-results"></div>
+      </section>
+
+      <section id="photos-section">
+        <h3>Photographs and Images</h3>
+        <div class="results-list" id="photos-results"></div>
+      </section>
+
+      <section id="research-section">
+        <h3>Research Papers</h3>
+        <div class="results-list" id="crossref-results"></div>
+      </section>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 KNOVA. Drushti Ludbe</p>
+  </footer>
+
+</body>
+</html>
+
