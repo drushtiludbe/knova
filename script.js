@@ -545,18 +545,32 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // CONTACT FORM DEMO
-  const contactForm = document.getElementById("contact-form");
-  const contactStatus = document.getElementById("contact-status");
+  
 
-  if (contactForm && contactStatus) {
-    contactForm.addEventListener("submit", event => {
-      event.preventDefault();
+const contactForm = document.getElementById("contact-form");
 
-      contactStatus.textContent =
-        "Demo only: your message has not been sent. " +
-        "Connect a backend or form service to receive messages.";
+if (contactForm) {
+    contactForm.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-      contactStatus.setAttribute("role", "status");
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+        const status = document.getElementById("contact-status");
+
+        const subject = encodeURIComponent(`KNOVA Contact Message from ${name}`);
+        const body = encodeURIComponent(
+            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+        );
+
+        if (status) {
+            status.textContent =
+                "Please mail your queries to email below.Sorry For The Inconvenience Caused"
+        }
+
+        window.location.href =
+            `mailto:dludbe2112@gmail.com?subject=${subject}&body=${body}`;
     });
-  }
+}
+
 });
