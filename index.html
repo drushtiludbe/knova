@@ -129,7 +129,11 @@
         position: relative;
         z-index: 1000;
       }
-    }
+    } 
+    /* Ensure hidden authentication sections stay hidden */
+[hidden] {
+  display: none !important;
+}
   </style>
 </head>
 
@@ -317,6 +321,7 @@
         }
       });
     });
+    
   </script>
 
 </body>
