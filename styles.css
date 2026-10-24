@@ -696,3 +696,53 @@ footer {
     font-size: 2rem;
   }
 }
+
+#authButtons,
+#userArea {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+#userArea[hidden],
+#authButtons[hidden] {
+  display: none !important;
+}
+
+
+/* Log Out — match Login and Sign Up hover style */
+#userArea #logoutButton {
+  background: transparent;
+  color: inherit;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+#userArea #logoutButton:hover {
+  background: #ffffff;
+  color: #244b78;
+  border-color: #ffffff;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Username and Log Out text */
+#userArea,
+#userArea #userName,
+#userArea #logoutButton {
+  color: #ffffff;
+}
+
+#userArea #userName {
+  font-weight: bold;
+}
+#userArea {
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-left: 0;
+}

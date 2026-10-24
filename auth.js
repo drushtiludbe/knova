@@ -138,33 +138,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* Status */
 
-  auth.onAuthStateChanged(function (user) {
-    currentUser = user;
-    authReady = true;
+  
+auth.onAuthStateChanged(function (user) {
+  const authButtons = document.getElementById("authButtons");
+  const userArea = document.getElementById("userArea");
+  const userName = document.getElementById("userName");
 
-    const authButtons = document.getElementById("authButtons");
-    const userArea = document.getElementById("userArea");
-    const userName = document.getElementById("userName");
+  if (authButtons) authButtons.hidden = !!user;
+  if (userArea) userArea.hidden = !user;
 
-    if (authButtons) {
-      authButtons.style.display = user ? "none" : "";
-    }
-
-    if (userArea) {
-      userArea.style.display = user ? "flex" : "none";
-    }
-
-    if (userName && user) {
-      userName.textContent = user.displayName || user.email || "User";
-    }
-
-    if (
-      !user &&
-      window.location.pathname.endsWith("/explore.html")
-    ) {
-      openLoginModal();
-    }
-  });
+  if (user && userName) {
+    userName.textContent =
+      "Hello , " + (user.displayName || user.email || "User");
+  }
+});
 
   /* Search */
 
