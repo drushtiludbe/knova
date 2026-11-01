@@ -545,32 +545,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // CONTACT FORM DEMO
-  
 
-const contactForm = document.getElementById("contact-form");
 
-if (contactForm) {
+  const contactForm = document.getElementById("contact-form");
+
+  if (contactForm) {
     contactForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+      event.preventDefault();
 
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const message = document.getElementById("message").value.trim();
-        const status = document.getElementById("contact-status");
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const status = document.getElementById("contact-status");
 
-        const subject = encodeURIComponent(`KNOVA Contact Message from ${name}`);
-        const body = encodeURIComponent(
-            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-        );
+      const subject = encodeURIComponent(`KNOVA Contact Message from ${name}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+      );
 
-        if (status) {
-            status.textContent =
-                "Please mail your queries to email below.Sorry For The Inconvenience Caused"
-        }
+      if (status) {
+        status.textContent =
+          "Please mail your queries to email below.Sorry For The Inconvenience Caused"
+      }
 
-        window.location.href =
-            `mailto:dludbe2112@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href =
+        `mailto:dludbe2112@gmail.com?subject=${subject}&body=${body}`;
     });
-}
+  }
 
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const menuButton = document.getElementById("menu-toggle");
+  const navigation = document.getElementById("main-navigation");
+
+  if (!menuButton || !navigation) return;
+
+  menuButton.addEventListener("click", function () {
+    const isOpen = navigation.classList.toggle("active");
+
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute(
+      "aria-label",
+      isOpen ? "Close navigation" : "Open navigation"
+    );
+  });
+
+  navigation.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      navigation.classList.remove("active");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Open navigation");
+    });
+  });
 });

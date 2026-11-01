@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,54 +15,70 @@
       align-items: center;
       justify-content: center;
       padding: 40px 20px;
+      background: #ffffff;
     }
 
     .auth-card {
       width: 100%;
       max-width: 430px;
       padding: 35px;
-     
-      border-radius: 14px;
-      background: #121116;
-      color: white;
-     
+      border-radius: 3px;
+      border: 1px solid #dce8ef;
+      border-top: 4px solid #0b658f;
+      background: #ffffff;
+      color: #101820;
     }
 
     .auth-card h1 {
       margin-bottom: 10px;
       text-align: center;
+      color: #101820;
     }
 
     .auth-card .subtitle {
       margin-bottom: 25px;
       text-align: center;
-      color: #ccc;
+      color: #586b78;
     }
 
     .auth-card label {
       display: block;
       margin: 15px 0 7px;
+      color: #101820;
     }
 
     .auth-card input {
       width: 100%;
       padding: 12px;
-      border: 1px solid #555;
-      border-radius: 7px;
-      background: #080808;
-      color: white;
+      border: 1px solid #cbdbe4;
+      border-radius: 3px;
+      background: #ffffff;
+      color: #5dc6f7;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .auth-card input:focus {
+      border-color: #5dc6f7;
+      box-shadow: 0 0 0 2px rgba(11, 101, 143, 0.10);
     }
 
     .auth-submit {
       width: 100%;
       margin-top: 22px;
       padding: 13px;
-      border: 0;
-      border-radius: 7px;
-      background: linear-gradient(90deg, #08437a, #3e86f3);
-      color: white;
+      border: 1px solid#5dc6f7;
+      border-radius: 3px;
+      background:#5dc6f7;
+      color: #ffffff;
       font-weight: bold;
       cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .auth-submit:hover {
+      background: #5dc6f7;
+      border-color: #084b6b;
     }
 
     .auth-message {
@@ -73,10 +90,54 @@
     .auth-switch {
       margin-top: 20px;
       text-align: center;
+      color: #586b78;
     }
 
     .auth-switch a {
-      color: #3e8cf3;
+      color: #0b658f;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .auth-switch a:hover {
+      text-decoration: underline;
+    }
+
+    .google-link {
+      display: block;
+      margin-top: 18px;
+      padding: 12px;
+      border: 1px solid #cbdbe4;
+      border-radius: 3px;
+      color: #0b658f;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .google-link:hover {
+      background: #edf4f8;
+      border-color: #0b658f;
+    }
+
+    body>footer {
+      padding: 20px;
+      border-top: 1px solid #e2e8ec;
+      background: #ffffff;
+      color: #586b78;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 480px) {
+      .auth-page {
+        padding: 30px 16px;
+      }
+
+      .auth-card {
+        padding: 35px;
+      }
     }
   </style>
 
@@ -86,10 +147,18 @@
 </head>
 
 <body>
-  <header>
-    <a href="index.html" class="logo">KNOVA</a>
 
-    <nav>
+  <header class="site-header">
+    <a href="index.html" class="logo">KNOVA<span>.</span></a>
+
+    <button class="hamburger" id="hamburger" type="button" aria-label="Open navigation menu" aria-expanded="false"
+      aria-controls="navMenu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="main-navigation" aria-label="Main navigation">
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="explore.html">Explore</a></li>
@@ -99,6 +168,7 @@
     </nav>
   </header>
 
+
   <main class="auth-page">
     <section class="auth-card">
       <h1>Create Account</h1>
@@ -106,17 +176,34 @@
 
       <form id="signupForm">
         <label for="name">Full name</label>
-        <input id="name" name="name" type="text"
-               autocomplete="name" required maxlength="80">
+        <input id="name" name="name" type="text" autocomplete="name" required maxlength="80">
 
         <label for="email">Email address</label>
-        <input id="email" name="email" type="email"
-               autocomplete="email" required>
+        <input id="email" name="email" type="email" autocomplete="email" required>
 
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password"
-               autocomplete="new-password" minlength="6" required>
+        <br>
+       <div class="password-field">
+  <input
+    type="password"
+    id="password"
+    name="password"
+    placeholder="Create password"
+    required
+  >
+  <button type="button" class="password-toggle"
+          data-target="password">Show</button>
+</div>
 
+  <p>Password must contain:</p>
+
+  <ul>
+    <li id="length">✗ At least 8 characters</li>
+    <li id="uppercase">✗ One uppercase letter (A–Z)</li>
+    <li id="lowercase">✗ One lowercase letter (a–z)</li>
+    <li id="number">✗ One number (0–9)</li>
+    <li id="special">✗ One special character (!@#$...)</li>
+  </ul>
+</div>
         <button class="auth-submit" type="submit">Create Account</button>
         <p class="auth-message" id="signupMessage" role="status"></p>
       </form>
@@ -124,17 +211,16 @@
       <p class="auth-switch">
         Already have an account? <a href="login.html">Log in</a>
       </p>
+
       <a href="#" id="googleLogin" class="google-link">
-  Continue with Google
-</a>
+        Continue with Google
+      </a>
     </section>
   </main>
 
-  
-
-
   <footer>
-   <p>&copy; 2026 KNOVA.<!--[FYCE] [Div B] [Batch A] [AP] [083 to 087] --> Drushti Ludbe</p>
+    <p>&copy; 2026 KNOVA.<!--[FYCE] [Div B] [Batch A] [AP] [083 to 087] --> Drushti Ludbe</p>
   </footer>
 </body>
+
 </html>

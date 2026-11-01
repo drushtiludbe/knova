@@ -1,22 +1,45 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Explore - KNOVA</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
-  
-</head>
-<body>
 
-  <header>
+  <title>Explore - KNOVA</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="inner-pages.css">
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="auth.js" defer></script>
+
+  <script src="script.js" defer></script>
+  <script src="home.js" defer></script>
+  <script src="inner-pages.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
     <a href="index.html" class="logo">KNOVA</a>
-    <nav>
+
+    <button
+      type="button"
+      class="hamburger"
+      id="hamburger"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      aria-controls="navMenu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="main-navigation">
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="explore.html" class="active">Explore</a></li>
+        <li><a href="explore.html">Explore</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
@@ -40,8 +63,7 @@
           <input
             type="search"
             id="keyword-search"
-            placeholder="e.g. Python, machine learning"
-          >
+            placeholder="e.g. Python, machine learning">
         </div>
 
         <div class="filter-group">
@@ -49,8 +71,7 @@
           <input
             type="search"
             id="author-search"
-            placeholder="e.g. Guido van Rossum"
-          >
+            placeholder="e.g. Guido van Rossum">
         </div>
 
         <div class="filter-group">
@@ -115,11 +136,14 @@
 
       </div>
 
-      <button class="btn-filter" type="submit">Search Resources</button>
+      <button class="btn-filter" type="submit">
+        Search Resources
+      </button>
     </form>
 
     <section class="results-section">
       <h2>Search Results</h2>
+
       <p id="explore-message" class="result-details" aria-live="polite">
         Search by keyword, author, domain, or resource type.
       </p>
@@ -153,4 +177,3 @@
 
 </body>
 </html>
-
