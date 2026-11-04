@@ -2,9 +2,6 @@
 name: Deploy KNOVA
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
