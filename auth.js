@@ -1,12 +1,11 @@
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDUv4_ytwmr5ECGG1vA0TTKJs1P1QlzsoU",
-  authDomain: "knova-e4dd8.firebaseapp.com",
-  projectId: "knova-e4dd8",
-  storageBucket: "knova-e4dd8.firebasestorage.app",
-  messagingSenderId: "327143067880",
-  appId: "1:327143067880:web:61ae906b2de88142b1795d",
-  measurementId: "G-Q3NL205QLZ"
+  apiKey: "__FIREBASE_API_KEY__",
+  authDomain: "__FIREBASE_AUTH_DOMAIN__",
+  projectId: "__FIREBASE_PROJECT_ID__",
+  storageBucket: "__FIREBASE_STORAGE_BUCKET__",
+  messagingSenderId: "__FIREBASE_MESSAGING_SENDER_ID__",
+  appId: "__FIREBASE_APP_ID__"
 };
 
 
