@@ -1,20 +1,19 @@
 
-
-
-/* Firebase Configuration */
 const firebaseConfig = {
-  apiKey: "YOUR_EXISTING_API_KEY",
+  apiKey: "AIzaSyDUv4_ytwmr5ECGG1vA0TTKJs1P1QlzsoU",
   authDomain: "knova-e4dd8.firebaseapp.com",
   projectId: "knova-e4dd8",
-  storageBucket: "YOUR_EXISTING_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_EXISTING_MESSAGING_SENDER_ID",
-  appId: "YOUR_EXISTING_APP_ID",
-  measurementId: "YOUR_EXISTING_MEASUREMENT_ID"
+  storageBucket: "knova-e4dd8.firebasestorage.app",
+  messagingSenderId: "327143067880",
+  appId: "1:327143067880:web:61ae906b2de88142b1795d",
+  measurementId: "G-Q3NL205QLZ"
 };
+
+
 
 /* Initialize Firebase */
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
 }
 
 const auth = firebase.auth();
@@ -24,7 +23,10 @@ let authReady = false;
 
 window.auth = auth;
 
-/* Elements */
+/* =====================================
+   ELEMENTS
+===================================== */
+
 const signupForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
 
@@ -43,279 +45,435 @@ const logoutButton = document.getElementById("logoutButton");
 const loginModal = document.getElementById("loginModal");
 const closeLoginModal = document.getElementById("closeLoginModal");
 
-/* Messages */
-function showMessage(element, message, success = false) {
-  if (!element) return;
+/* =====================================
+   MESSAGE HANDLER
+===================================== */
 
-  element.textContent = message;
-  element.style.color = success ? "#2e9d69" : "#d9534f";
+function showMessage(element, message, success = false) {
+    if (!element) return;
+
+    element.textContent = message;
+    element.style.color = success ? "#2e9d69" : "#d9534f";
 }
 
-/* Password Requirements */
+/* =====================================
+   PASSWORD VALIDATION
+===================================== */
+
 function checkPassword(password) {
-  return {
-    length: password.length >= 8,
-    uppercase: /[A-Z]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    number: /[0-9]/.test(password),
-    special: /[^A-Za-z0-9]/.test(password)
-  };
+    return {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
 }
 
 function isPasswordValid(password) {
-  return Object.values(checkPassword(password)).every(Boolean);
+    return Object.values(checkPassword(password)).every(Boolean);
 }
 
 /* Live Password Checklist */
-if (passwordInput) {
-  passwordInput.addEventListener("input", () => {
-    if (!signupForm) return;
 
-    const requirements = checkPassword(passwordInput.value);
+if (passwordInput && signupForm) {
 
-    const labels = {
-      length: "At least 8 characters",
-      uppercase: "One uppercase letter (A-Z)",
-      lowercase: "One lowercase letter (a-z)",
-      number: "One number (0-9)",
-      special: "One special character (!@#$...)"
-    };
+    passwordInput.addEventListener("input", () => {
 
-    Object.entries(labels).forEach(([id, label]) => {
-      const item = document.getElementById(id);
+        const requirements = checkPassword(passwordInput.value);
 
-      if (!item) return;
+        const labels = {
+            length: "At least 8 characters",
+            uppercase: "One uppercase letter (A-Z)",
+            lowercase: "One lowercase letter (a-z)",
+            number: "One number (0-9)",
+            special: "One special character (!@#$...)"
+        };
 
-      const valid = requirements[id];
+        Object.entries(labels).forEach(([id, label]) => {
 
-      item.classList.toggle("valid", valid);
-      item.textContent = `${valid ? "✓" : "✗"} ${label}`;
+            const item = document.getElementById(id);
+
+            if (!item) return;
+
+            const valid = requirements[id];
+
+            item.classList.toggle("valid", valid);
+
+            item.textContent =
+                `${valid ? "✓" : "✗"} ${label}`;
+
+        });
+
     });
-  });
+
 }
 
-/* Sign Up */
+/* =====================================
+   SIGN UP
+===================================== */
+
 if (signupForm) {
-  signupForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
 
-    const name = nameInput?.value.trim() || "";
-    const email = emailInput?.value.trim() || "";
-    const password = passwordInput?.value || "";
+    signupForm.addEventListener("submit", async (event) => {
 
-    if (!name) {
-      showMessage(signupMessage, "Please enter your name.");
-      return;
-    }
+        event.preventDefault();
 
-    if (!isPasswordValid(password)) {
-      showMessage(
-        signupMessage,
-        "Please meet all password requirements."
-      );
-      return;
-    }
+        const name = nameInput?.value.trim() || "";
+        const email = emailInput?.value.trim() || "";
+        const password = passwordInput?.value || "";
 
-    try {
-      showMessage(signupMessage, "Creating your account...", true);
+        if (!name || !email || !password) {
+            showMessage(signupMessage, "Please fill in all fields.");
+            return;
+        }
 
-      const credential = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
+        if (!isPasswordValid(password)) {
+            showMessage(
+                signupMessage,
+                "Please meet all password requirements."
+            );
+            return;
+        }
 
-      await credential.user.updateProfile({
-        displayName: name
-      });
+        const submitButton = signupForm.querySelector(
+            'button[type="submit"]'
+        );
 
-      showMessage(
-        signupMessage,
-        "Account created successfully!",
-        true
-      );
+        if (submitButton) submitButton.disabled = true;
 
-      window.location.href = "explore.html";
-    } catch (error) {
-      const messages = {
-        "auth/email-already-in-use":
-          "This email is already registered.",
-        "auth/invalid-email":
-          "Please enter a valid email address.",
-        "auth/weak-password":
-          "Please choose a stronger password.",
-        "auth/network-request-failed":
-          "Network error. Please try again.",
-        "auth/too-many-requests":
-          "Too many attempts. Please try again later."
-      };
+        try {
 
-      showMessage(
-        signupMessage,
-        messages[error.code] ||
-          "Unable to create your account. Please try again."
-      );
-    }
-  });
+            showMessage(
+                signupMessage,
+                "Creating your account...",
+                true
+            );
+
+            const credential =
+                await auth.createUserWithEmailAndPassword(
+                    email,
+                    password
+                );
+
+            await credential.user.updateProfile({
+                displayName: name
+            });
+
+            showMessage(
+                signupMessage,
+                "Account created successfully!",
+                true
+            );
+
+            window.location.replace("explore.html");
+
+        } catch (error) {
+
+            const messages = {
+                "auth/email-already-in-use":
+                    "This email is already registered.",
+
+                "auth/invalid-email":
+                    "Please enter a valid email address.",
+
+                "auth/weak-password":
+                    "Please choose a stronger password.",
+
+                "auth/network-request-failed":
+                    "Network error. Please try again.",
+
+                "auth/too-many-requests":
+                    "Too many attempts. Please try again later."
+            };
+
+            showMessage(
+                signupMessage,
+                messages[error.code] ||
+                "Unable to create your account. Please try again."
+            );
+
+        } finally {
+
+            if (submitButton) submitButton.disabled = false;
+
+        }
+
+    });
+
 }
 
-/* Login */
+/* =====================================
+   LOGIN
+===================================== */
+
 if (loginForm) {
-  loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
 
-    const email = emailInput?.value.trim() || "";
-    const password = passwordInput?.value || "";
+    loginForm.addEventListener("submit", async (event) => {
 
-    if (!email || !password) {
-      showMessage(
-        loginMessage,
-        "Please enter your email and password."
-      );
-      return;
-    }
+        event.preventDefault();
 
-    try {
-      showMessage(loginMessage, "Logging in...", true);
+        const email = emailInput?.value.trim() || "";
+        const password = passwordInput?.value || "";
 
-      await auth.signInWithEmailAndPassword(email, password);
+        if (!email || !password) {
 
-      showMessage(loginMessage, "Login successful!", true);
+            showMessage(
+                loginMessage,
+                "Please enter your email and password."
+            );
 
-      window.location.href = "explore.html";
-    } catch (error) {
-      const messages = {
-        "auth/invalid-email":
-          "Please enter a valid email address.",
-        "auth/user-not-found":
-          "No account found with this email.",
-        "auth/wrong-password":
-          "Incorrect email or password.",
-        "auth/invalid-credential":
-          "Incorrect email or password.",
-        "auth/too-many-requests":
-          "Too many attempts. Please try again later.",
-        "auth/network-request-failed":
-          "Network error. Please try again."
-      };
+            return;
+        }
 
-      showMessage(
-        loginMessage,
-        messages[error.code] || "Login failed. Please try again."
-      );
-    }
-  });
+        const submitButton = loginForm.querySelector(
+            'button[type="submit"]'
+        );
+
+        if (submitButton) submitButton.disabled = true;
+
+        try {
+
+            showMessage(
+                loginMessage,
+                "Logging in...",
+                true
+            );
+
+            await auth.signInWithEmailAndPassword(
+                email,
+                password
+            );
+
+            showMessage(
+                loginMessage,
+                "Login successful!",
+                true
+            );
+
+            window.location.replace("explore.html");
+
+        } catch (error) {
+
+            const messages = {
+
+                "auth/invalid-email":
+                    "Please enter a valid email address.",
+
+                "auth/user-not-found":
+                    "No account found with this email.",
+
+                "auth/wrong-password":
+                    "Incorrect email or password.",
+
+                "auth/invalid-credential":
+                    "Incorrect email or password.",
+
+                "auth/user-disabled":
+                    "This account has been disabled.",
+
+                "auth/too-many-requests":
+                    "Too many attempts. Please try again later.",
+
+                "auth/network-request-failed":
+                    "Network error. Please try again."
+
+            };
+
+            showMessage(
+                loginMessage,
+                messages[error.code] ||
+                "Login failed. Please try again."
+            );
+
+        } finally {
+
+            if (submitButton) submitButton.disabled = false;
+
+        }
+
+    });
+
 }
 
-/* Google Sign In */
+/* =====================================
+   GOOGLE SIGN IN
+===================================== */
+
 const googleButtons = document.querySelectorAll(
-  "#googleLogin, #googleSignIn, #googleSignUp, .googleSignIn"
+    "#googleLogin, #googleSignIn, #googleSignUp, .googleSignIn"
 );
 
 googleButtons.forEach((button) => {
-  button.addEventListener("click", async (event) => {
-    event.preventDefault();
 
-    try {
-      const provider = new firebase.auth.GoogleAuthProvider();
+    button.addEventListener("click", async (event) => {
 
-      await auth.signInWithPopup(provider);
+        event.preventDefault();
 
-      window.location.href = "explore.html";
-    } catch (error) {
-      const messageElement = signupForm
-        ? signupMessage
-        : loginMessage;
+        try {
 
-      const messages = {
-        "auth/popup-closed-by-user":
-          "Sign-in was cancelled.",
-        "auth/popup-blocked":
-          "Please allow popups and try again.",
-        "auth/unauthorized-domain":
-          "This website is not authorized for sign-in.",
-        "auth/network-request-failed":
-          "Network error. Please try again."
-      };
+            const provider =
+                new firebase.auth.GoogleAuthProvider();
 
-      showMessage(
-        messageElement,
-        messages[error.code] ||
-          "Google sign-in failed. Please try again."
-      );
-    }
-  });
+            await auth.signInWithPopup(provider);
+
+            window.location.replace("explore.html");
+
+        } catch (error) {
+
+            const messageElement = signupForm
+                ? signupMessage
+                : loginMessage;
+
+            const messages = {
+
+                "auth/popup-closed-by-user":
+                    "Sign-in was cancelled.",
+
+                "auth/popup-blocked":
+                    "Please allow popups and try again.",
+
+                "auth/unauthorized-domain":
+                    "This website is not authorized for sign-in.",
+
+                "auth/network-request-failed":
+                    "Network error. Please try again.",
+
+                "auth/account-exists-with-different-credential":
+                    "An account already exists with this email."
+
+            };
+
+            showMessage(
+                messageElement,
+                messages[error.code] ||
+                "Google sign-in failed. Please try again."
+            );
+
+        }
+
+    });
+
 });
 
-/* Authentication State and Explore Protection */
+/* =====================================
+   AUTHENTICATION STATE
+===================================== */
+
 auth.onAuthStateChanged((user) => {
-  currentUser = user;
-  authReady = true;
 
-  window.currentUser = user;
-  window.authReady = true;
+    currentUser = user;
+    authReady = true;
 
-  if (authButtons) {
-    authButtons.hidden = !!user;
-  }
+    window.currentUser = user;
+    window.authReady = true;
 
-  if (userArea) {
-    userArea.hidden = !user;
-  }
+    /* Update Navbar */
 
-  if (userName) {
-    userName.textContent = user
-      ? `Hello, ${user.displayName || user.email.split("@")[0]}`
-      : "";
-  }
-
-  const currentPage = window.location.pathname
-    .split("/")
-    .pop();
-
-  if (currentPage === "explore.html" && !user) {
-    alert("Please log in or sign up to access KNOVA Explore.");
-    window.location.replace("login.html");
-  }
-});
-
-/* Logout */
-if (logoutButton) {
-  logoutButton.addEventListener("click", async (event) => {
-    event.preventDefault();
-
-    try {
-      await auth.signOut();
-      window.location.href = "login.html";
-    } catch (error) {
-      alert("Unable to log out. Please try again.");
+    if (authButtons) {
+        authButtons.hidden = !!user;
     }
-  });
-}
 
-/* Login Modal */
-if (closeLoginModal && loginModal) {
-  closeLoginModal.addEventListener("click", () => {
-    loginModal.hidden = true;
-  });
-}
+    if (userArea) {
+        userArea.hidden = !user;
+    }
 
-/* Show / Hide Password */
-document.querySelectorAll(".password-toggle").forEach((button) => {
-  button.addEventListener("click", (event) => {
-    event.preventDefault();
+    if (userName) {
 
-    const input = document.getElementById(button.dataset.target);
+        userName.textContent = user
+            ? `Hello, ${user.displayName || user.email?.split("@")[0] || "User"}`
+            : "";
 
-    if (!input) return;
+    }
 
-    const showPassword = input.type === "password";
+    /* Protect Explore Page */
 
-    input.type = showPassword ? "text" : "password";
-    button.textContent = showPassword ? "Hide" : "Show";
+    const currentPage = window.location.pathname
+        .split("/")
+        .pop()
+        .toLowerCase();
 
-    button.setAttribute(
-      "aria-label",
-      showPassword ? "Hide password" : "Show password"
-    );
-  });
+    if (currentPage === "explore.html" && !user) {
+
+        alert("Please log in or sign up to access KNOVA Explore.");
+
+        window.location.replace("login.html");
+
+        return;
+    }
+
 });
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+if (logoutButton) {
+
+    logoutButton.addEventListener("click", async (event) => {
+
+        event.preventDefault();
+
+        try {
+
+            await auth.signOut();
+
+            window.location.replace("login.html");
+
+        } catch (error) {
+
+            alert("Unable to log out. Please try again.");
+
+        }
+
+    });
+
+}
+
+/* =====================================
+   LOGIN MODAL
+===================================== */
+
+if (closeLoginModal && loginModal) {
+
+    closeLoginModal.addEventListener("click", () => {
+
+        loginModal.hidden = true;
+
+    });
+
+}
+
+/* =====================================
+   SHOW / HIDE PASSWORD
+===================================== */
+
+document.querySelectorAll(".password-toggle").forEach((button) => {
+
+    button.addEventListener("click", (event) => {
+
+        event.preventDefault();
+
+        const input = document.getElementById(
+            button.dataset.target
+        );
+
+        if (!input) return;
+
+        const showPassword = input.type === "password";
+
+        input.type = showPassword ? "text" : "password";
+
+        button.textContent = showPassword
+            ? "Hide"
+            : "Show";
+
+        button.setAttribute(
+            "aria-label",
+            showPassword ? "Hide password" : "Show password"
+        );
+
+    });
+
+});
+
