@@ -10,24 +10,27 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: knova-manual-deployment
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    runs-on: ubuntu-latest
-
     steps:
+      # 1. Get repository files
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Configure GitHub Pages
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      # 3. Inject Firebase configuration
       - name: Inject Firebase Configuration
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -41,9 +44,14 @@ jobs:
         run: |
           python - <<'PY'
           import os
+          import sys
           from pathlib import Path
 
           file = Path("auth.js")
+
+          if not file.exists():
+              sys.exit("ERROR: auth.js not found!")
+
           content = file.read_text()
 
           replacements = {
@@ -58,18 +66,40 @@ jobs:
 
           for placeholder, variable in replacements.items():
               value = os.environ.get(variable)
-              if not value:
-                  raise ValueError(f"Missing secret: {variable}")
+
+              if not value or not value.strip():
+                  sys.exit(f"ERROR: Missing or empty secret: {variable}")
+
+              if placeholder not in content:
+                  sys.exit(f"ERROR: Placeholder not found: {placeholder}")
+
               content = content.replace(placeholder, value)
 
+          if "__FIREBASE_" in content:
+              sys.exit("ERROR: Unresolved Firebase placeholders!")
+
           file.write_text(content)
+
+          print("Firebase configuration injected successfully.")
           PY
 
+      # 4. Verify configuration before deployment
+      - name: Verify Firebase Configuration
+        run: |
+          if grep -q "__FIREBASE_" auth.js; then
+            echo "ERROR: Firebase configuration is incomplete!"
+            exit 1
+          fi
+
+          echo "Firebase configuration verified."
+
+      # 5. Upload website only if previous steps succeed
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
+      # 6. Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
